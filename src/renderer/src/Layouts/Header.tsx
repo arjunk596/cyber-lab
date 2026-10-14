@@ -1,6 +1,6 @@
-import '../Sass/Header.scss'
-import Logo from '../Assets/Logo.png'
 import { Minus, Plus, X } from 'lucide-react'
+import Logo from '../Assets/Logo.png'
+import '../Sass/Layouts/Header.scss'
 
 const Header = () => {
   const { minimize, maximize, close } = window.api.winCtrl

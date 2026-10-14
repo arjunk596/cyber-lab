@@ -1,6 +1,12 @@
+import Splash from "./Layouts/Splash"
+import Welcome from "./Layouts/Welcome"
+
 const App = () => {
   return (
-    <div>App</div>
+    !localStorage.getItem("agreed") ?
+      <Welcome />
+      :
+      <Splash />
   )
 }
 

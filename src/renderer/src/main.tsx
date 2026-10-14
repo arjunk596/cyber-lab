@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import './Sass/index.scss'
 import { createHashRouter, RouterProvider } from 'react-router'
-import Header from './Components/Header'
+import Header from './Layouts/Header'
 
 const router = createHashRouter([
   {
