@@ -1,7 +1,13 @@
-import { ElectronAPI } from '@electron-toolkit/preload'
-
+/// <reference types="vite/client" />
+export { };
 declare global {
   interface Window {
-    api: {}
+    api: {
+      winCtrl: {
+        minimize: () => void
+        maximize: () => void
+        close: () => void
+      }
+    }
   }
 }

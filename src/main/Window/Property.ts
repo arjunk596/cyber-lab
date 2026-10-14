@@ -3,8 +3,8 @@ import { join } from "node:path";
 const windowProperty: BrowserWindowConstructorOptions = {
     height: 644,
     width: 844,
-    minHeight: 644,
-    minWidth: 844,
+    minHeight: 600,
+    minWidth: 800,
     show: false,
     frame: false,
     transparent: true,

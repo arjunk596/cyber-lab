@@ -1,0 +1,99 @@
+header {
+    padding: 10px;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    -webkit-app-region: drag;
+
+
+    .branding {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .logo {
+            height: 28px;
+            width: 28px;
+            overflow: hidden;
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+                -webkit-user-drag: none;
+            }
+        }
+
+        .title {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            color: var(--color-on-surface);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .window-ctrl {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        -webkit-app-region: no-drag;
+        flex-shrink: 0;
+
+        button {
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            border: 0.5px solid;
+            padding: 0;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            -webkit-app-region: no-drag;
+
+            svg {
+                color: rgba(0, 0, 0, 0.55);
+                opacity: 0;
+                transition: opacity 0.12s ease;
+                display: block;
+            }
+
+            &.close {
+                background: #ff5f57;
+                border-color: #e0443e;
+
+                &:active {
+                    background: #e0443e;
+                }
+            }
+
+            &.minimize {
+                background: #febc2e;
+                border-color: #dea123;
+
+                &:active {
+                    background: #dea123;
+                }
+            }
+
+            &.maximize {
+                background: #28c840;
+                border-color: #1aab29;
+
+                &:active {
+                    background: #1aab29;
+                }
+            }
+        }
+
+        &:hover button svg {
+            opacity: 1;
+        }
+    }
+}
