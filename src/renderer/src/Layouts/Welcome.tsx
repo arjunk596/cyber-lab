@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, type Dispatch, type SetStateAction } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 import GetStarted from '@renderer/Components/GetStarted'
 import TermCond from '@renderer/Components/TermCond'
 import '../Sass/Layouts/Welcome.scss'
@@ -11,6 +12,14 @@ export interface CheckPoint {
 
 export type CheckComponent = 'get-started' | 'term-cond' | 'pre-requisite'
 
+const ORDER: CheckComponent[] = ['get-started', 'term-cond', 'pre-requisite']
+
+const variants = {
+  enter: (dir: number) => ({ opacity: 0, x: dir >= 0 ? 80 : -80 }),
+  center: { opacity: 1, x: 0 },
+  exit: (dir: number) => ({ opacity: 0, x: dir >= 0 ? -80 : 80 }),
+}
+
 const Welcome = () => {
   const [checkPoint, setCheckPoint] = useState<CheckPoint[]>([
     { id: 'gs', state: 'active' },
@@ -18,6 +27,14 @@ const Welcome = () => {
     { id: 'pr', state: null },
   ])
   const [checkComponent, setCheckComponent] = useState<CheckComponent>('get-started')
+  const [direction, setDirection] = useState<number>(1)
+
+  const goTo: Dispatch<SetStateAction<CheckComponent>> = (value) => {
+    if (typeof value !== 'function') {
+      setDirection(ORDER.indexOf(value) >= ORDER.indexOf(checkComponent) ? 1 : -1)
+    }
+    setCheckComponent(value)
+  }
 
   const [agreed, setAgreed] = useState<boolean>(false)
 
@@ -31,30 +48,61 @@ const Welcome = () => {
         }
       </ul>
 
+      <AnimatePresence mode="wait" custom={direction}>
       {
         checkComponent === 'get-started' &&
+        <motion.div
+          key="get-started"
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+        >
         <GetStarted
           setCheckPoint={setCheckPoint}
-          setCheckComponent={setCheckComponent}
+          setCheckComponent={goTo}
         />
+        </motion.div>
       }
       {
         checkComponent === 'term-cond' &&
+        <motion.div
+          key="term-cond"
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+        >
         <TermCond
           setCheckPoint={setCheckPoint}
-          setCheckComponent={setCheckComponent}
-          agreed={agreed}
+          setCheckComponent={goTo}
           setAgreed={setAgreed}
         />
+        </motion.div>
       }
       {
         checkComponent === 'pre-requisite' &&
+        <motion.div
+          key="pre-requisite"
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+        >
         <Prerequisite
           setCheckPoint={setCheckPoint}
-          setCheckComponent={setCheckComponent}
+          setCheckComponent={goTo}
           agreed={agreed}
         />
+        </motion.div>
       }
+      </AnimatePresence>
     </section>
   )
 }

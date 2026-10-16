@@ -1,5 +1,5 @@
 import { useState, useEffect, ReactNode, MouseEvent, Dispatch, SetStateAction, useRef } from 'react'
-import Check from '../Assets/Checklist.png'
+import Config from '../Assets/configuration.png'
 import '../Sass/Components/Prerequisite.scss'
 import Loading from './Loading'
 import { CheckComponent, CheckPoint } from '@renderer/Layouts/Welcome'
@@ -98,7 +98,7 @@ const Prerequisite = ({ setCheckPoint, setCheckComponent, agreed }: PropType) =>
   return (
     <div className='prerequisite'>
       <div className='cp-img'>
-        <img src={Check} alt="hello" />
+        <img src={Config} alt="hello" />
       </div>
 
       <div className="cp-text">
