@@ -1,9 +1,10 @@
 import { useState, useEffect, ReactNode, MouseEvent, Dispatch, SetStateAction, useRef } from 'react'
-import Config from '../Assets/configuration.png'
-import '../Sass/Components/Prerequisite.scss'
-import Loading from './Loading'
 import { CheckComponent, CheckPoint } from '@renderer/Layouts/Welcome'
 import { useNavigate } from 'react-router'
+import Loading from './Loading'
+import Config from '../Assets/configuration.png'
+import '../Sass/Components/Prerequisite.scss'
+import toast from 'react-hot-toast'
 
 interface PropType {
   setCheckPoint: Dispatch<SetStateAction<CheckPoint[]>>
@@ -79,7 +80,7 @@ const Prerequisite = ({ setCheckPoint, setCheckComponent, agreed }: PropType) =>
     try {
       await window.api.openURL(url)
     } catch (err) {
-      console.log(err)
+      toast.error('failed to open link in browser')
     }
   }
 

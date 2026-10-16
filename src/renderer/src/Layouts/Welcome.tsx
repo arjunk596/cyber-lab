@@ -2,8 +2,8 @@ import { useState, type Dispatch, type SetStateAction } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import GetStarted from '@renderer/Components/GetStarted'
 import TermCond from '@renderer/Components/TermCond'
-import '../Sass/Layouts/Welcome.scss'
 import Prerequisite from '@renderer/Components/Prerequisite'
+import '../Sass/Layouts/Welcome.scss'
 
 export interface CheckPoint {
   id: 'gs' | 'tc' | 'pr'
@@ -15,9 +15,9 @@ export type CheckComponent = 'get-started' | 'term-cond' | 'pre-requisite'
 const ORDER: CheckComponent[] = ['get-started', 'term-cond', 'pre-requisite']
 
 const variants = {
-  enter: (dir: number) => ({ opacity: 0, x: dir >= 0 ? 80 : -80 }),
+  enter: (dir: number) => ({ opacity: 0, x: dir >= 0 ? 200 : -200 }),
   center: { opacity: 1, x: 0 },
-  exit: (dir: number) => ({ opacity: 0, x: dir >= 0 ? -80 : 80 }),
+  exit: (dir: number) => ({ opacity: 0, x: dir >= 0 ? -200 : 200 }),
 }
 
 const Welcome = () => {
@@ -58,7 +58,7 @@ const Welcome = () => {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
         >
         <GetStarted
           setCheckPoint={setCheckPoint}
@@ -75,7 +75,7 @@ const Welcome = () => {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
         >
         <TermCond
           setCheckPoint={setCheckPoint}
@@ -93,7 +93,7 @@ const Welcome = () => {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+          transition={{ duration: 0.1, ease: 'easeOut' }}
         >
         <Prerequisite
           setCheckPoint={setCheckPoint}
