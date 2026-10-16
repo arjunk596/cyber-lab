@@ -5,11 +5,21 @@ import './Sass/index.scss'
 import { createHashRouter, RouterProvider } from 'react-router'
 import Header from './Layouts/Header'
 import { Toaster } from 'react-hot-toast'
+import Home from './Layouts/Home'
+import Lab from './Layouts/Lab'
 
 const router = createHashRouter([
   {
     path: '/',
     element: <App />
+  },
+  {
+    path: '/home',
+    element: <Home />
+  },
+  {
+    path: '/:labname',
+    element: <Lab />
   }
 ])
 

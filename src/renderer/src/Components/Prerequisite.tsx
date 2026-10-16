@@ -5,6 +5,7 @@ import Loading from './Loading'
 import Config from '../Assets/configuration.png'
 import '../Sass/Components/Prerequisite.scss'
 import toast from 'react-hot-toast'
+import { RotateCcw } from 'lucide-react'
 
 interface PropType {
   setCheckPoint: Dispatch<SetStateAction<CheckPoint[]>>
@@ -106,10 +107,34 @@ const Prerequisite = ({ setCheckPoint, setCheckComponent, agreed }: PropType) =>
         <h1>Prerequisite</h1>
         <p>In order to run CRCE Cyber Lab, your computer must meet the following requirements.</p>
         <div className="pr-details">
-          <span className='pr-detail'>{renderStatus(depStatus.docker)} Docker Installed <a href="#" onClick={(e) => openUrl(e, url.docker)}>How?</a></span>
-          <span className='pr-detail'>{renderStatus(depStatus.compose)} Docker Compose V2 Installed <a href="#" onClick={(e) => openUrl(e, url.compose)}>How?</a></span>
-          <span className='pr-detail'>{renderStatus(depStatus.dockerDaemon)} Docker Daemon is running <a href="#" onClick={(e) => openUrl(e, url.dockerDaemon)}>How?</a></span>
-          <span className='pr-detail'>{renderStatus(depStatus.git)} Git is installed <a href="#" onClick={(e) => openUrl(e, url.git)}>How?</a></span>
+          <span className='pr-detail'>
+            {renderStatus(depStatus.docker)} Docker Installed
+            <a href="#" onClick={(e) => openUrl(e, url.docker)}>How?</a>
+            {!depStatus.docker && <button type="button" className='retry-btn' onClick={checkDependency} title='Recheck'>
+              <RotateCcw size={15} color='#fff' />
+            </button>}
+          </span>
+          <span className='pr-detail'>
+            {renderStatus(depStatus.compose)} Docker Compose V2 Installed
+            <a href="#" onClick={(e) => openUrl(e, url.compose)}>How?</a>
+            {!depStatus.compose && <button type="button" className='retry-btn' onClick={checkDependency} title='Recheck'>
+              <RotateCcw size={15} color='#fff' />
+            </button>}
+          </span>
+          <span className='pr-detail'>
+            {renderStatus(depStatus.dockerDaemon)} Docker Daemon is running
+            <a href="#" onClick={(e) => openUrl(e, url.dockerDaemon)}>How?</a>
+            {!depStatus.dockerDaemon && <button type="button" className='retry-btn' onClick={checkDependency} title='Recheck'>
+              <RotateCcw size={15} color='#fff' />
+            </button>}
+          </span>
+          <span className='pr-detail'>
+            {renderStatus(depStatus.git)} Git is installed
+            <a href="#" onClick={(e) => openUrl(e, url.git)}>How?</a>
+            {!depStatus.git && <button type="button" className='retry-btn' onClick={checkDependency} title='Recheck'>
+              <RotateCcw size={15} color='#fff' />
+            </button>}
+          </span>
         </div>
         <div className="btn-ctn">
           <button

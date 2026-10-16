@@ -2,7 +2,7 @@
     height: calc(100dvh - 49px - 48px - 44px - 30px - 2px);
     padding: 20px;
     margin-top: 30px;
-    background-color: var(--color-surface-2);
+    background-color: var(--color-surface);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -40,7 +40,7 @@
 
         .agreement-detail {
             padding: 20px;
-            background-color: var(--color-surface-3);
+            background-color: var(--color-surface-2);
             height: auto;
             overflow: auto;
             border-radius: 8px;
@@ -60,16 +60,29 @@
 
             button {
                 margin: 0;
-                padding: 5px 25px;
+                padding: 8px 25px;
                 font-size: 16px;
                 border: 0;
                 border-radius: 5px;
                 color: #fff;
                 cursor: pointer;
-                background-color: var(--color-primary);
 
-                &:hover {
-                    background-color: var(--color-primary-hover);
+                &.agree-btn {
+                    background-color: var(--color-primary);
+
+                    &:hover {
+                        background-color: var(--color-primary-hover);
+                    }
+                }
+
+                &.back-btn {
+                    background-color: var(--color-surface-2);
+                    border: 1px solid var(--color-border);
+
+                    &:hover {
+                        background-color: var(--color-surface-3);
+                        border: 1px solid var(--color-border-strong);
+                    }
                 }
             }
         }

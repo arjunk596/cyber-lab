@@ -23,7 +23,7 @@ const TermCond = ({ setCheckPoint, setCheckComponent, setAgreed }: PropType) => 
         })
     }
 
-    const handleNextCheckPoint = (prev) => {
+    const handleNextCheckPoint = (prev:CheckPoint[]):CheckPoint[] => {
         return prev.map((item) => {
             if (item.id == 'tc') {
                 return { ...item, state: 'done' }
