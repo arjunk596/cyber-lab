@@ -1,8 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 const Lab = () => {
+  const navigate = useNavigate()
   return (
-    <div>Lab</div>
+    <div onClick={()=>navigate(-1)}>Lab</div>
   )
 }
 
