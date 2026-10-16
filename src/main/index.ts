@@ -1,8 +1,9 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { join } from "node:path";
 import handleInstance from "./Window/Instance";
 import windowProperty from "./Window/Property";
 import { close, maximize, minimize } from "./Window/Controls";
+import { checkDeps, CmdType } from "./Process/checkDependency";
 
 let win: null | BrowserWindow = null;
 const lock = app.requestSingleInstanceLock();
@@ -32,3 +33,6 @@ if (!lock) {
 ipcMain.on('win:minimize', () => minimize(win))
 ipcMain.on('win:maximize', () => maximize(win))
 ipcMain.on('win:close', () => close(win))
+ipcMain.handle('proc:checkDependency', (_, cmd: CmdType) => checkDeps(cmd))
+ipcMain.handle('open-external-url', (_, url) => shell.openExternal(url)
+)

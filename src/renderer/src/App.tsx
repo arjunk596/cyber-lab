@@ -3,7 +3,7 @@ import Welcome from "./Layouts/Welcome"
 
 const App = () => {
   return (
-    !localStorage.getItem("agreed") ?
+    localStorage.getItem("agreed")!=='true' ?
       <Welcome />
       :
       <Splash />

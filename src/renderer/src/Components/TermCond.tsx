@@ -1,16 +1,18 @@
 import { Dispatch, SetStateAction, Fragment } from 'react'
 import termsAndConditionsData from '@renderer/Constant/termsAndConditionsData'
 import type { CheckComponent, CheckPoint } from '@renderer/Layouts/Welcome'
-import Paper from '../Assets/Hello.svg'
+import Paper from '../Assets/Terms-and-Conditions.png'
 import '../Sass/Components/TermCond.scss'
 
 interface PropType {
     setCheckPoint: Dispatch<SetStateAction<CheckPoint[]>>
     setCheckComponent: Dispatch<SetStateAction<CheckComponent>>
+    agreed: boolean
+    setAgreed: Dispatch<SetStateAction<boolean>>
 }
 
-const TermCond = ({ setCheckPoint, setCheckComponent }: PropType) => {
-    const handleBackCheckPoint = (prev:CheckPoint[]):CheckPoint[] => {
+const TermCond = ({ setCheckPoint, setCheckComponent, agreed, setAgreed }: PropType) => {
+    const handleBackCheckPoint = (prev: CheckPoint[]): CheckPoint[] => {
         return prev.map((item) => {
             if (item.id == 'gs') {
                 return { ...item, state: 'active' }
@@ -67,7 +69,7 @@ const TermCond = ({ setCheckPoint, setCheckComponent }: PropType) => {
                         type="button"
                         className='agree-btn'
                         onClick={() => {
-                            localStorage.setItem('agreed', 'true')
+                            setAgreed(true)
                             setCheckPoint(handleNextCheckPoint)
                             setCheckComponent('pre-requisite')
                         }}
