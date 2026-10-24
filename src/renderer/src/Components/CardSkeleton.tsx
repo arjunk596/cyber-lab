@@ -13,7 +13,6 @@ const CardSkeleton = () => {
         <div className="sk sk-line short" />
       </div>
       <div className="exp-skeleton-footer">
-        <span className="sk sk-time" />
         <span className="sk sk-btn" />
       </div>
     </div>

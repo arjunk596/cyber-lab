@@ -1,33 +1,62 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, Dispatch, SetStateAction } from 'react'
 import { useNavigate } from 'react-router'
 import { ChevronDown, Search, SearchX } from 'lucide-react'
-import {
-  CATEGORIES,
-  DIFFICULTIES,
-  EXPERIMENTS,
-  type Experiment
-} from '@renderer/Constant/experiments'
+import { CATEGORIES, DIFFICULTIES, type Experiment } from '@shared/experiment'
 import ExperimentCard from '@renderer/Components/ExperimentCard'
 import CardSkeleton from '@renderer/Components/CardSkeleton'
 import '../Sass/Layouts/Home.scss'
 
-const SKELETON_COUNT = 6
+interface Proptype {
+  setMenuVisiblity: Dispatch<SetStateAction<boolean>>
+}
 
-const Home = () => {
+const SKELETON_COUNT = 10
+const API_URL = (import.meta.env.RENDERER_VITE_API_URL as string)
+
+const Home = ({ setMenuVisiblity }: Proptype) => {
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>('All')
   const [difficulty, setDifficulty] = useState<(typeof DIFFICULTIES)[number]>('All Difficulties')
+  const [experiments, setExperiments] = useState<Experiment[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 900)
-    return () => clearTimeout(t)
+    setMenuVisiblity(true)
+    let cancelled = false
+
+    const load = async (): Promise<void> => {
+      try {
+        const res = await fetch(API_URL, {
+          headers: { 'ngrok-skip-browser-warning': 'true' }
+        })
+        const json = await res.json()
+        const list: Experiment[] = (
+          Array.isArray(json) ?
+            json
+            :
+            Array.isArray(json?.data) ?
+              json.data
+              :
+              []
+        )
+        if (!cancelled) setExperiments(list)
+      } catch {
+        if (!cancelled) setExperiments([])
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+
+    load()
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return EXPERIMENTS.filter((exp) => {
+    return experiments.filter((exp) => {
       const matchQuery =
         !q ||
         exp.title.toLowerCase().includes(q) ||
@@ -36,10 +65,11 @@ const Home = () => {
       const matchDifficulty = difficulty === 'All Difficulties' || exp.difficulty === difficulty
       return matchQuery && matchCategory && matchDifficulty
     })
-  }, [query, category, difficulty])
+  }, [experiments, query, category, difficulty])
 
   const handleStart = (exp: Experiment) => {
-    navigate(`/${exp.id}`)
+    sessionStorage.setItem('lab-experiment', JSON.stringify(exp))
+    navigate('/lab')
   }
 
   return (
@@ -98,9 +128,9 @@ const Home = () => {
         </section>
       ) : filtered.length > 0 ? (
         <section className="home-grid">
-          {filtered.map((exp) => (
-            <ExperimentCard key={exp.id} experiment={exp} onStart={handleStart} />
-          ))}
+          {filtered.map((exp) => {
+            return <ExperimentCard key={exp.id} experiment={exp} onStart={handleStart} />
+          })}
         </section>
       ) : (
         <section className="home-empty">

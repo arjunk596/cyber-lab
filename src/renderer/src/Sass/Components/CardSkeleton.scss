@@ -21,7 +21,7 @@
   .exp-skeleton-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 12px 18px;
     border-top: 1px solid var(--color-border);
     background-color: var(--color-surface-2);
@@ -66,11 +66,6 @@
       width: 78%;
       margin-bottom: 0;
     }
-  }
-
-  .sk-time {
-    height: 12px;
-    width: 60px;
   }
 
   .sk-btn {

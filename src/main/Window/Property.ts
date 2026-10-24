@@ -1,8 +1,8 @@
 import { BrowserWindowConstructorOptions } from "electron";
 import { join } from "node:path";
 const windowProperty: BrowserWindowConstructorOptions = {
-    height: 644,
-    width: 844,
+    height: 900,
+    width: 1220,
     minHeight: 600,
     minWidth: 800,
     show: false,

@@ -1,53 +1,57 @@
+import { useState } from 'react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import './Sass/index.scss'
 import { createHashRouter, RouterProvider } from 'react-router'
 import Header from './Layouts/Header'
-import { Toaster } from 'react-hot-toast'
+import { ToastContainer } from 'react-toastify'
 import Home from './Layouts/Home'
 import Lab from './Layouts/Lab'
 
-const router = createHashRouter([
-  {
-    path: '/',
-    element: <App />
-  },
-  {
-    path: '/home',
-    element: <Home />
-  },
-  {
-    path: '/:labname',
-    element: <Lab />
-  }
-])
+
+const Main = () => {
+  const [menuVisiblity, setMenuVisiblity] = useState<boolean>(true)
+
+  const router = createHashRouter([
+    {
+      path: '/',
+      element: <App />,
+    },
+    {
+      path: '/home',
+      element: <Home setMenuVisiblity={setMenuVisiblity} />,
+    },
+    {
+      path: '/lab',
+      element: <Lab setMenuVisiblity={setMenuVisiblity} />,
+    },
+  ])
+
+  return (
+    <>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        newestOnTop={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        limit={2}
+      />
+      <Header
+        menuVisiblity={menuVisiblity}
+      />
+      <RouterProvider router={router} />
+    </>
+  )
+}
+
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Toaster
-      position='top-center'
-      toastOptions={{
-        style: {
-          background: 'var(--color-surface-2)',
-          color: 'var(--color-on-surface)',
-          border: '1px solid var(--color-border)',
-          borderRadius: '8px',
-          fontFamily: 'var(--font-sans)',
-          fontSize: '14px',
-        },
-        success: {
-          iconTheme: { primary: 'var(--color-success)', secondary: '#fff' },
-        },
-        error: {
-          iconTheme: { primary: 'var(--color-danger)', secondary: '#fff' },
-        },
-        loading: {
-          iconTheme: { primary: 'var(--color-primary)', secondary: 'var(--color-primary-fixed-dim)' },
-        },
-      }}
-    />
-    <Header />
-    <RouterProvider router={router} />
-  </StrictMode>
+    <Main />
+  </StrictMode>,
 )

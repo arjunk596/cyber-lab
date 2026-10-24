@@ -6,11 +6,9 @@
 }
 
 :root {
-    /* Font */
     --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
 
-    /* Background / Surface — SOC Professional Dark */
     --color-background: #0b1220;
     --color-surface: #111a30;
     --color-surface-2: #16213c;
@@ -18,23 +16,19 @@
     --color-border: #243353;
     --color-border-strong: #31436b;
 
-    /* Text */
     --color-on-surface: #e8eef9;
     --color-muted: #8b9bb8;
     --color-faint: #5a6b8c;
 
-    /* Primary — SOC Blue */
     --color-primary: #3b82f6;
     --color-primary-hover: #2563eb;
     --color-primary-active: #1d4ed8;
     --color-primary-fixed-dim: rgba(59, 130, 246, 0.16);
     --color-on-primary: #ffffff;
 
-    /* Accent — Intel Cyan */
     --color-accent: #22d3ee;
     --color-accent-dim: rgba(34, 211, 238, 0.14);
 
-    /* Status */
     --color-success: #22c55e;
     --color-success-dim: rgba(34, 197, 94, 0.14);
     --color-warning: #f59e0b;
@@ -44,7 +38,6 @@
     --color-info: #38bdf8;
     --color-info-dim: rgba(56, 189, 248, 0.14);
 
-    /* SOC Severity */
     --severity-critical: #ef4444;
     --severity-high: #f97316;
     --severity-medium: #f59e0b;

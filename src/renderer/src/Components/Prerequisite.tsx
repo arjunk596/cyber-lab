@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 import Loading from './Loading'
 import Config from '../Assets/configuration.png'
 import '../Sass/Components/Prerequisite.scss'
-import toast from 'react-hot-toast'
+import { toast } from 'react-toastify'
 import { RotateCcw } from 'lucide-react'
 
 interface PropType {

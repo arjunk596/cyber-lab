@@ -1,5 +1,14 @@
-import { ArrowRight, Clock, Code, Database, KeyRound, Lock, Network, Terminal } from 'lucide-react'
-import type { Experiment } from '@renderer/Constant/experiments'
+import {
+  ArrowRight,
+  Bug,
+  Globe,
+  KeyRound,
+  Lock,
+  Network,
+  ShieldAlert,
+  Terminal
+} from 'lucide-react'
+import type { Experiment } from '@shared/experiment'
 import '../Sass/Components/ExperimentCard.scss'
 
 interface ExperimentCardProps {
@@ -7,23 +16,33 @@ interface ExperimentCardProps {
   onStart?: (experiment: Experiment) => void
 }
 
-const ICONS = {
-  database: Database,
-  code: Code,
-  terminal: Terminal,
-  key: KeyRound,
-  network: Network,
-  lock: Lock
+const CATEGORY_ICONS = {
+  'Web Security': Globe,
+  System: Terminal,
+  Network: Network,
+  Cryptography: KeyRound,
+  'Authentication Security': Lock,
+  'Malware Analysis': Bug
+} as const
+
+const CATEGORY_ACCENTS = {
+  'Web Security': 'violet',
+  System: 'rose',
+  Network: 'sky',
+  Cryptography: 'fuchsia',
+  'Authentication Security': 'indigo',
+  'Malware Analysis': 'amber'
 } as const
 
 const ExperimentCard = ({ experiment, onStart }: ExperimentCardProps) => {
-  const Icon = ICONS[experiment.icon]
+  const Icon = CATEGORY_ICONS[experiment.category] ?? ShieldAlert
+  const accent = CATEGORY_ACCENTS[experiment.category] ?? 'sky'
 
   return (
     <article className="exp-card">
       <div className="exp-card-body">
         <div className="exp-card-top">
-          <span className={`exp-card-icon accent-${experiment.accent}`}>
+          <span className={`exp-card-icon accent-${accent}`}>
             <Icon size={18} />
           </span>
           <span className="exp-card-meta">
@@ -36,10 +55,6 @@ const ExperimentCard = ({ experiment, onStart }: ExperimentCardProps) => {
       </div>
 
       <div className="exp-card-footer">
-        <span className="exp-card-time">
-          <Clock size={14} />
-          {experiment.duration}
-        </span>
         <button
           type="button"
           className="exp-card-btn"

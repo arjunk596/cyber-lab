@@ -3,16 +3,18 @@ import { join } from "node:path";
 import handleInstance from "./Window/Instance";
 import windowProperty from "./Window/Property";
 import { close, maximize, minimize } from "./Window/Controls";
-import { checkDeps, CmdType } from "./Process/checkDependency";
+import { checkDeps, type CmdType } from "./Process/checkDependency";
+import { killPtySession, registerTerminalHandlers } from "./Process/Terminal";
+import { recoverLabOnBoot, registerLabHandlers, stopLab } from "./Process/Lab";
 
 let win: null | BrowserWindow = null;
 const lock = app.requestSingleInstanceLock();
+app.commandLine.appendSwitch('remote-debugging-port', '8152')
 
 const createWindow = () => {
   win = new BrowserWindow(windowProperty);
 
   win.on('ready-to-show', () => win?.show())
-  // win.webContents.openDevTools({ mode: "detach" })
 
   if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
     win.loadURL(process.env['ELECTRON_RENDERER_URL'])
@@ -25,8 +27,9 @@ if (!lock) {
   app.quit()
 } else {
   app.whenReady().then(() => {
-    app.on('second-instance', () => { handleInstance(win!) })
+    app.on('second-instance', () => { handleInstance(win as BrowserWindow) })
     createWindow()
+    void recoverLabOnBoot()
   })
 }
 
@@ -34,5 +37,21 @@ ipcMain.on('win:minimize', () => minimize(win))
 ipcMain.on('win:maximize', () => maximize(win))
 ipcMain.on('win:close', () => close(win))
 ipcMain.handle('proc:checkDependency', (_, cmd: CmdType) => checkDeps(cmd))
-ipcMain.handle('open-external-url', (_, url) => shell.openExternal(url)
-)
+ipcMain.handle('open-external-url', (_, url) => shell.openExternal(url))
+registerTerminalHandlers(() => win)
+registerLabHandlers(() => win)
+
+let shuttingDown = false
+
+app.on('before-quit', (event) => {
+  if (shuttingDown) return
+  event.preventDefault()
+  shuttingDown = true
+
+  killPtySession()
+
+  const guard = new Promise<void>((resolve) => setTimeout(resolve, 20000))
+  void Promise.race([stopLab().then(() => undefined), guard])
+    .catch(() => undefined)
+    .finally(() => app.quit())
+})

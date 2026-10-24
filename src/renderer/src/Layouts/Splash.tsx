@@ -35,13 +35,31 @@ const Splash = () => {
   ])
 
   const [time, setTime] = useState<number>(5)
-
   const [allOk, setAllOk] = useState<boolean>(false)
 
   const timers = useRef<{
     interval?: ReturnType<typeof setInterval>
     timeout?: ReturnType<typeof setTimeout>
   }>({})
+
+  const clearTimers = () => {
+    if (timers.current.interval) clearInterval(timers.current.interval)
+    if (timers.current.timeout) clearTimeout(timers.current.timeout)
+    timers.current = {}
+  }
+
+  const startCountdown = () => {
+    clearTimers() 
+
+    timers.current.interval = setInterval(() => {
+      setTime(prev => (prev <= 0 ? 0 : prev - 1))
+    }, 1000)
+
+    timers.current.timeout = setTimeout(() => {
+      clearTimers()
+      navigate('/home')
+    }, 5000)
+  }
 
   const checkDependency = async () => {
     const [git, docker, compose, dockerDaemon] = await Promise.all([
@@ -75,24 +93,13 @@ const Splash = () => {
     setAllOk(ok)
 
     if (ok) {
-      clearInterval(timers.current.interval)
-      timers.current.interval = setInterval(() => {
-        setTime(prev => prev - 1)
-      }, 1000)
-
-      timers.current.timeout = setTimeout(() => {
-        if (timers.current.interval) clearInterval(timers.current.interval)
-        navigate('/home')
-      }, 5000)
+      startCountdown()
     }
   }
 
   useEffect(() => {
     checkDependency()
-    return () => {
-      if (timers.current.interval) clearInterval(timers.current.interval)
-      if (timers.current.timeout) clearTimeout(timers.current.timeout)
-    }
+    return clearTimers
   }, [])
 
   return (
