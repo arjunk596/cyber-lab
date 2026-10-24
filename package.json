@@ -1,9 +1,10 @@
 {
   "name": "cyber-lab",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "CRCE Cyber Lab - hands-on cybersecurity experiments",
+  "desktopName": "crce-cyber-lab.desktop",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "CRCE",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
