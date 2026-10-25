@@ -9,7 +9,6 @@ import { recoverLabOnBoot, registerLabHandlers, stopLab } from "./Process/Lab";
 
 let win: null | BrowserWindow = null;
 const lock = app.requestSingleInstanceLock();
-app.commandLine.appendSwitch('remote-debugging-port', '8152')
 
 const createWindow = () => {
   win = new BrowserWindow(windowProperty);
