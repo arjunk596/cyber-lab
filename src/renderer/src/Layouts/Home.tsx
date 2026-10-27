@@ -56,15 +56,16 @@ const Home = ({ setMenuVisiblity }: Proptype) => {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return experiments.filter((exp) => {
-      const matchQuery =
-        !q ||
-        exp.title.toLowerCase().includes(q) ||
-        exp.description.toLowerCase().includes(q)
-      const matchCategory = category === 'All' || exp.category === category
-      const matchDifficulty = difficulty === 'All Difficulties' || exp.difficulty === difficulty
-      return matchQuery && matchCategory && matchDifficulty
-    })
+    return experiments
+      .filter((exp) => Boolean(exp?.title?.trim()))
+      .filter((exp) => {
+        const title = (exp.title || '').toLowerCase()
+        const desc = (exp.description || '').toLowerCase()
+        const matchQuery = !q || title.includes(q) || desc.includes(q)
+        const matchCategory = category === 'All' || exp.category === category
+        const matchDifficulty = difficulty === 'All Difficulties' || exp.difficulty === difficulty
+        return matchQuery && matchCategory && matchDifficulty
+      })
   }, [experiments, query, category, difficulty])
 
   const handleStart = (exp: Experiment) => {

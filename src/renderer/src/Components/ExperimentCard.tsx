@@ -46,7 +46,7 @@ const ExperimentCard = ({ experiment, onStart }: ExperimentCardProps) => {
             <Icon size={18} />
           </span>
           <span className="exp-card-meta">
-            {experiment.category} • {experiment.difficulty}
+            {[experiment.category, experiment.difficulty].filter(Boolean).join(' • ')}
           </span>
         </div>
 
